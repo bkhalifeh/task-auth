@@ -1,0 +1,22 @@
+services:
+  backend:
+    build:
+      target: development
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/app
+    depends_on:
+      - backend-db
+    ports:
+      - "3000:3000"
+    command: ["pnpm", "exec", "nodemon"]
+
+  backend-db:
+    image: mongo:7.0.11-jammy
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admin
+
+  backend-redis:
+    image: redis:7.4.1-alpine3.20
